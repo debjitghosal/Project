@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniket's Birthday Bash Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        header {
+            background: #ff6f61;
+            color: #fff;
+            padding: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+        }
+
+        .game-area {
+            position: relative;
+            height: 500px;
+            border-top: 2px solid #ff6f61;
+            display: none;
+        }
+
+        .ball {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff6f61;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .scoreboard, .timer {
+            background: #ff6f61;
+            color: #fff;
+            padding: 10px;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .instructions {
+            padding: 20px;
+            font-size: 1.1rem;
+        }
+
+        .game-over {
+            font-size: 2rem;
+            padding: 20px;
+            display: none;
+        }
+
+        .start-button {
+            background: #ff6f61;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .start-button:hover {
+            background: #e65a50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Happy Birthday Aniket!</h1>
+        </header>
+        <div class="instructions">
+            <p>Click on the moving balls to score points. Try to catch as many as you can in 15 seconds!</p>
+        </div>
+        <button class="start-button" id="startButton">Start to Play</button>
+        <div class="scoreboard" id="scoreboard">
+            Score: <span id="score">0</span>
+        </div>
+        <div class="timer" id="timerContainer">
+            Time Left: <span id="timer">15</span> seconds
+        </div>
+        <div class="game-area" id="gameArea">
+            <!-- Balls will be dynamically added here -->
+        </div>
+        <div class="game-over" id="gameOver">
+            Game Over! Your score is: <span id="finalScore"></span>
+        </div>
+    </div>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const gameOverDisplay = document.getElementById('gameOver');
+        const finalScoreDisplay = document.getElementById('finalScore');
+        const startButton = document.getElementById('startButton');
+        const scoreboard = document.getElementById('scoreboard');
+        const timerContainer = document.getElementById('timerContainer');
+        let score = 0;
+        let timeLeft = 15;
+        let gameInterval;
+        let timerInterval;
+
+        function createBall() {
+            const ball = document.createElement('div');
+            ball.classList.add('ball');
+            ball.style.top = Math.random() * (gameArea.clientHeight - 50) + 'px';
+            ball.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+
+            ball.addEventListener('click', () => {
+                score++;
+                scoreDisplay.textContent = score;
+                ball.remove();
+                createBall();
+            });
+
+            gameArea.appendChild(ball);
+        }
+
+        function startGame() {
+            score = 0;
+            timeLeft = 15;
+            scoreDisplay.textContent = score;
+            timerDisplay.textContent = timeLeft;
+            gameOverDisplay.style.display = 'none';
+            startButton.style.display = 'none';
+            gameArea.style.display = 'block';
+            scoreboard.style.display = 'block';
+            timerContainer.style.display = 'block';
+
+            for (let i = 0; i < 5; i++) {
+                createBall();
+            }
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            document.querySelectorAll('.ball').forEach(ball => ball.remove());
+            finalScoreDisplay.textContent = score;
+            gameOverDisplay.style.display = 'block';
+            gameArea.style.display = 'none';
+            scoreboard.style.display = 'none';
+            timerContainer.style.display = 'none';
+            startButton.style.display = 'block';
+            startButton.textContent = 'Play Again';
+        }
+
+        startButton.addEventListener('click', startGame);
+    </script>
+</body>
+</html>
+
