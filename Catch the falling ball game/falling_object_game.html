@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Falling Objects</title>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+<body>
+    <div id="instructions" class="instructions">
+        <h2>Catch the falling Balls</h2>
+        <h3>How to Play</h3>
+        <ul>
+            <li>Use the basket to catch the falling balls.</li>
+            <li>Click and drag the basket to move it left and right.</li>
+            <li>Each ball caught increases your score.</li>
+            <li>Each ball missed decreases your lives.</li>
+            <li>The game ends when you lose all your lives.</li>
+        </ul>
+        <button id="start-instructions" class="start-button">Start Game</button>
+    </div>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1>Catch the Falling Balls</h1>
+            <button id="start-game" class="start-button">Start the Game</button>
+        </div>
+        <div class="score">Score: <span id="score">0</span></div>
+        <div class="lives">Lives: <span id="lives">3</span></div>
+        <div class="basket" id="basket"></div>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+</html>
